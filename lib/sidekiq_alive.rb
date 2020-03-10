@@ -80,9 +80,6 @@ module SidekiqAlive
     Sidekiq.redis { |r| r }
   end
 
-  def self.alive?
-  end
-
   # CONFIG ---------------------------------------
 
   def self.setup

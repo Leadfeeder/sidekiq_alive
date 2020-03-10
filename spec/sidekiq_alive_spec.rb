@@ -64,10 +64,14 @@ RSpec.describe SidekiqAlive do
   end
 
   it "::alive?" do
-    redis = SidekiqAlive.redis
-    expect(SidekiqAlive.alive?).to be false
-    SidekiqAlive.store_alive_key
     expect(SidekiqAlive.alive?).to be true
+  end
+
+  it "::ready?" do
+    redis = SidekiqAlive.redis
+    expect(SidekiqAlive.ready?).to be false
+    SidekiqAlive.store_alive_key
+    expect(SidekiqAlive.ready?).to be true
   end
 
   it "::registered_instances" do

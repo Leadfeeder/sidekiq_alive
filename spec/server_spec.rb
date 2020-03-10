@@ -6,18 +6,28 @@ RSpec.describe SidekiqAlive::Server do
   subject(:app) { described_class }
 
   describe 'responses' do
-    it "responds with success when the service is alive" do
-      allow(SidekiqAlive).to receive(:alive?) { true }
-      get '/'
-      expect(last_response).to be_ok
-      expect(last_response.body).to eq('Alive!')
+    describe "/-/liveness" do
+      it "responds with success" do
+        get '/-/liveness'
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq('OK')
+      end
     end
 
-    it "responds with an error when the service is not alive" do
-      allow(SidekiqAlive).to receive(:alive?) { false }
-      get '/'
-      expect(last_response).not_to be_ok
-      expect(last_response.body).to eq("Can't find the alive key")
+    describe "/-/readiness" do
+      it "responds with ok if the service is ready" do
+        allow(SidekiqAlive).to receive(:ready?) { true }
+        get '/-/readiness'
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq("OK")
+      end
+
+      it "responds with an error when the service is not ready" do
+        allow(SidekiqAlive).to receive(:ready?) { false }
+        get '/-/readiness'
+        expect(last_response).not_to be_ok
+        expect(last_response.body).to eq("KO")
+      end
     end
   end
 
@@ -35,5 +45,4 @@ RSpec.describe SidekiqAlive::Server do
       expect( described_class.port ).to eq '4567'
     end
   end
-
 end
