@@ -81,7 +81,6 @@ module SidekiqAlive
   end
 
   def self.alive?
-    redis.ttl(current_lifeness_key) != -2
   end
 
   # CONFIG ---------------------------------------
@@ -104,6 +103,14 @@ module SidekiqAlive
 
   def self.hostname
     ENV['HOSTNAME'] || 'HOSTNAME_NOT_SET'
+  end
+
+  def self.ready?
+   redis.ttl(current_lifeness_key) != -2 && config.readiness_check.call
+  end
+
+  def self.alive?
+    config.liveness_check.call
   end
 
   def self.shutdown_info

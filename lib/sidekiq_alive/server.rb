@@ -5,14 +5,27 @@ module SidekiqAlive
     set :port, -> { SidekiqAlive.config.port }
 
     get '/' do
+      status 404
+      body ""
+    end
+
+    get '/-/liveness' do
       if SidekiqAlive.alive?
         status 200
-        body 'Alive!'
+        body "OK"
       else
-        response = "Can't find the alive key"
-        SidekiqAlive.logger.error(response)
         status 404
-        body response
+        body "KO"
+      end
+    end
+
+    get '/-/readiness' do
+      if SidekiqAlive.ready?
+        status 200
+        body "OK"
+      else
+        status 404
+        body "KO"
       end
     end
   end
