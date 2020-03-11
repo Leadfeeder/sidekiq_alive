@@ -159,4 +159,4 @@ end
 require 'sidekiq_alive/worker'
 require 'sidekiq_alive/server'
 
-SidekiqAlive.start unless ENV['DISABLE_SIDEKIQ_ALIVE']
+SidekiqAlive.start if ENV['SIDEKIQ_ALIVE']

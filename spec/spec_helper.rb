@@ -23,6 +23,6 @@ RSpec.configure do |config|
     SidekiqAlive.redis.flushall
     SidekiqAlive.config.set_defaults
 
-    Sidekiq.logger= Logger.new("/dev/null")
+    Sidekiq.logger = Logger.new("/dev/null")
   end
 end
