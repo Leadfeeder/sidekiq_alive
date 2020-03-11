@@ -9,7 +9,9 @@ module SidekiqAlive
     SidekiqAlive::Worker.sidekiq_options queue: current_queue
     Sidekiq.configure_server do |sq_config|
 
-      sq_config.options[:queues] << current_queue
+      queues =
+        sq_config.options[:mixed_queues].presence || sq_config.options[:queues]
+      queues.unshift(current_queue)
 
       sq_config.on(:startup) do
         SidekiqAlive.tap do |sa|
