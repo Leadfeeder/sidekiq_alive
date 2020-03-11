@@ -9,7 +9,8 @@ module SidekiqAlive
                   :registered_instance_key,
                   :queue_prefix,
                   :readiness_check,
-                  :liveness_check
+                  :liveness_check,
+                  :token
 
 
     def initialize
@@ -25,6 +26,7 @@ module SidekiqAlive
       @queue_prefix = :sidekiq_alive
       @readiness_check = Proc.new { true }
       @liveness_check = Proc.new { true }
+      @token = "here-be-leadfeeding-dragons"
     end
 
     def registration_ttl

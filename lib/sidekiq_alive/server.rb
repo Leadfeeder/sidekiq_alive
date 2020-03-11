@@ -4,9 +4,12 @@ module SidekiqAlive
     set :bind, '0.0.0.0'
     set :port, -> { SidekiqAlive.config.port }
 
-    get '/' do
-      status 404
-      body ""
+    before do
+      token = params["token"] || headers["TOKEN"]
+
+      unless Rack::Utils.secure_compare(token.to_s, SidekiqAlive.config.token)
+        halt 401
+      end
     end
 
     get '/-/liveness' do
@@ -27,6 +30,11 @@ module SidekiqAlive
         status 404
         body "KO"
       end
+    end
+
+    get '/*' do
+      status 404
+      body "did you mean /-/liveness or /-/readiness ?"
     end
   end
 end
