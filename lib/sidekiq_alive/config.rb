@@ -7,7 +7,11 @@ module SidekiqAlive
                   :time_to_live,
                   :callback,
                   :registered_instance_key,
-                  :queue_prefix
+                  :queue_prefix,
+                  :readiness_check,
+                  :liveness_check,
+                  :token
+
 
     def initialize
       set_defaults
@@ -20,6 +24,9 @@ module SidekiqAlive
       @callback = proc {}
       @registered_instance_key = 'SIDEKIQ_REGISTERED_INSTANCE'
       @queue_prefix = :sidekiq_alive
+      @readiness_check = Proc.new { true }
+      @liveness_check = Proc.new { true }
+      @token = "here-be-leadfeeding-dragons"
     end
 
     def registration_ttl

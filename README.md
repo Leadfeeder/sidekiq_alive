@@ -65,16 +65,16 @@ bundle exec sidekiq
 
 ```
 curl localhost:7433
-#=> Alive!                                   
+#=> Alive!
 ```
 
 
-__how to disable?__
-You can disabled by setting `ENV` variable `DISABLE_SIDEKIQ_ALIVE`
+__How to enable?__
+You can eanble by setting `ENV` variable `SIDEKIQ_ALIVE`
 example:
 
 ```
-DISABLE_SIDEKIQ_ALIVE=true bundle exec sidekiq
+SIDEKIQ_ALIVE=true bundle exec sidekiq
 ```
 
 ### Kubernetes setup
@@ -227,7 +227,7 @@ SidekiqAlive.setup do |config|
   # ==> Queue Prefix
   # SidekiqAlive will run in a independent queue for each instance/replica
   # This queue name will be generated with: "#{queue_prefix}-#{hostname}.
-  # You can customize the prefix here. 
+  # You can customize the prefix here.
   # default: :sidekiq_alive
   #
   #    config.queue_prefix = :other
