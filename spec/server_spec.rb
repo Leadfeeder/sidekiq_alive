@@ -15,6 +15,13 @@ RSpec.describe SidekiqAlive::Server do
         expect(last_response.body).to eq('OK')
       end
 
+      it "responds with success when the token header is used" do
+        header 'TOKEN', token
+        get "/-/liveness"
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq('OK')
+      end
+
       it "responds with 401 if token is invalid" do
         get "/-/liveness?token=foo"
         expect(last_response).not_to be_ok
@@ -26,6 +33,14 @@ RSpec.describe SidekiqAlive::Server do
       it "responds with ok if the service is ready" do
         allow(SidekiqAlive).to receive(:ready?) { true }
         get "/-/readiness?token=#{token}"
+        expect(last_response).to be_ok
+        expect(last_response.body).to eq("OK")
+      end
+
+      it "responds with ok if the service is ready and the token header is used" do
+        allow(SidekiqAlive).to receive(:ready?) { true }
+        header 'TOKEN', token
+        get "/-/readiness"
         expect(last_response).to be_ok
         expect(last_response.body).to eq("OK")
       end
