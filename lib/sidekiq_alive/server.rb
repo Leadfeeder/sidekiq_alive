@@ -5,7 +5,7 @@ module SidekiqAlive
     set :port, -> { SidekiqAlive.config.port }
 
     before do
-      token = params["token"] || headers["TOKEN"]
+      token = params["token"] || request.env["HTTP_TOKEN"]
 
       unless Rack::Utils.secure_compare(token.to_s, SidekiqAlive.config.token)
         halt 401
