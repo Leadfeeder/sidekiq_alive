@@ -26,7 +26,7 @@ module SidekiqAlive
       @queue_prefix = :sidekiq_alive
       @readiness_check = Proc.new { true }
       @liveness_check = Proc.new { true }
-      @token = "here-be-leadfeeding-dragons"
+      @token = "test-token"
     end
 
     def registration_ttl
