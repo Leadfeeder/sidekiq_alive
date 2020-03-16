@@ -1,3 +1,3 @@
 module SidekiqAlive
-  VERSION = '2.0.4'.freeze
+  VERSION = '3.0.0'.freeze
 end
