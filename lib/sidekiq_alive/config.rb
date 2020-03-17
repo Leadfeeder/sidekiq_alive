@@ -5,7 +5,9 @@ module SidekiqAlive
     attr_accessor :port,
                   :readiness_check,
                   :liveness_check,
-                  :token
+                  :token,
+                  :server_logger
+
 
 
     def initialize
@@ -17,6 +19,7 @@ module SidekiqAlive
       @readiness_check = Proc.new { true }
       @liveness_check = Proc.new { true }
       @token = "test-token"
+      @server_logger = Sidekiq.logger
     end
   end
 end
