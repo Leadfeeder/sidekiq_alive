@@ -4,6 +4,8 @@ module SidekiqAlive
     set :bind, '0.0.0.0'
     set :port, -> { SidekiqAlive.config.port }
 
+    set :logger, SidekiqAlive.config.server_logger
+
     before do
       token = params["token"] || request.env["HTTP_TOKEN"]
 
