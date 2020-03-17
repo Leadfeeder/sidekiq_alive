@@ -3,11 +3,6 @@ module SidekiqAlive
     include Singleton
 
     attr_accessor :port,
-                  :liveness_key,
-                  :time_to_live,
-                  :callback,
-                  :registered_instance_key,
-                  :queue_prefix,
                   :readiness_check,
                   :liveness_check,
                   :token
@@ -19,18 +14,9 @@ module SidekiqAlive
 
     def set_defaults
       @port = ENV['SIDEKIQ_ALIVE_PORT'] || 7433
-      @liveness_key = 'SIDEKIQ::LIVENESS_PROBE_TIMESTAMP'
-      @time_to_live = 10 * 60
-      @callback = proc {}
-      @registered_instance_key = 'SIDEKIQ_REGISTERED_INSTANCE'
-      @queue_prefix = :sidekiq_alive
       @readiness_check = Proc.new { true }
       @liveness_check = Proc.new { true }
       @token = "test-token"
-    end
-
-    def registration_ttl
-      @registration_ttl ? @registration_ttl : time_to_live + 60
     end
   end
 end
