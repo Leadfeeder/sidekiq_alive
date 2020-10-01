@@ -7,7 +7,8 @@ module SidekiqAlive
     set :logger, SidekiqAlive.config.server_logger
 
     before do
-      token = params["token"] || request.env["HTTP_TOKEN"]
+      token = params["token"] || request.env["HTTP_TOKEN"] || ""
+      token = token.split(",")[0]
 
       unless Rack::Utils.secure_compare(token.to_s, SidekiqAlive.config.token)
         halt 401
