@@ -23,8 +23,7 @@ RSpec.describe SidekiqAlive::Server do
       end
 
       it "responds with success when the token header is duplicated" do
-        header 'TOKEN', token
-        header 'TOKEN', token
+        header 'TOKEN', "#{token},#{token}"
         get "/-/liveness"
         expect(last_response).to be_ok
         expect(last_response.body).to eq('OK')
@@ -55,8 +54,7 @@ RSpec.describe SidekiqAlive::Server do
 
       it "responds with ok if the service is ready and the token header is duplicated" do
         allow(SidekiqAlive).to receive(:ready?) { true }
-        header 'TOKEN', token
-        header 'TOKEN', token
+        header 'TOKEN', "#{token},#{token}"
         get "/-/readiness"
         expect(last_response).to be_ok
         expect(last_response.body).to eq("OK")
